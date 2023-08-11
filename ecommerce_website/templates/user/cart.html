@@ -47,10 +47,8 @@
                         </span></p>
                 </div>
             </div>
-            {% include "partials/components/quantity-input.html" %}
             <div class="text-primary text-lg font-semibold">{{product.product_id.price}}</div>
-            <a href="{% url 'add_to_cart' pk=product.product_id.id %}"
-                class="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">Update</a>
+            {% include "partials/components/update-cart-item-btn.html" with product=product class="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium" %}
 
             <button class="rm-cart" data-val="{{product.id}}">
                 <div class="text-gray-600 cursor-pointer hover:text-primary">
@@ -60,7 +58,9 @@
         </div>
         {% empty %}
         <div class="flex items-center justify-center h-44  border gap-6 p-4 border-gray-200 rounded">
-            <p class="text-center">Add Amazing Items from <a class="text-orange-500 underline underline-offset-1 hover:text-orange-900 " href="{% url 'shop' %}">Shopping List</a></p>
+            <p class="text-center">Add Amazing Items from <a
+                    class="text-orange-500 underline underline-offset-1 hover:text-orange-900 "
+                    href="{% url 'shop' %}">Shopping List</a></p>
         </div>
         {% endfor %}
         <div class="flex flex-row justify-end">
@@ -73,6 +73,6 @@
     </div>
 </div>
 <!-- ./wrapper -->
-
+{% include "partials/components/update-product-modal.html" %}
 
 {% endblock content %}

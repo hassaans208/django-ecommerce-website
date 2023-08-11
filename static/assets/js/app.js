@@ -93,6 +93,52 @@ $(document).ready(function () {
                 }
             })
     })
+    $('.get-product').on('click', function (e) {
+        id = $(this).data('val')
+        $.ajax({
+            type: 'GET',
+            url: `/api/get-product/${id}`,
+            success: function (data) {
+                console.log(data.data.name);
+                console.log(data.data.price);
+                console.log(data.data.sizes);
+                console.log(data.data.sizes_ids);
+                console.log(data.data.colors);
+                console.log(data.data.colors_ids);
+                console.log(data.data.available_quantity);
+                console.log(data.data.discounted_price);
+                console.log(data.data.total_price);
+                let color_ids = data.data.colors_ids
+                let sizes_ids = data.data.sizes_ids
+                let sizes = data.data.sizes
+                let colors = data.data.colors
+                let color_comp = ''
+                let size_comp = ''
+                sizes_ids?.map(index, element =>{
+                   color_comp += `<div class="size-selector">
+                                    <input type="radio" name="size" id="size-{{product_has_size.size.id}}" class="hidden">
+                                    <label for="size-{{product_has_size.size.id}}" data-val="{{product_has_size.size.id}}"
+                                        class="text-xs border border-gray-200 size-selection rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">{{product_has_size.size.display_name}}</label>
+                                </div>`
+                })
+                $('#color-list').append(color_comp)
+                sizes_ids?.map(index, element =>{
+                    size_comp += `<div class="color-selector">
+                                    <input type="radio" name="color" id="{{product_has_color.id}}-{{product_has_color.color.hex}}"
+                                        class="hidden">
+                                    <label for="{{product_has_color.id}}-{{product_has_color.color.hex}}"
+                                        data-val="${element}"
+                                        class="border border-gray-200 rounded-sm h-6 w-6  cursor-pointer shadow-sm block color-selection"
+                                        style="background-color: #{{product_has_color.color.hex}};"></label>
+                                    </div>`
+                })
+                $('#size-list').append(size_comp)
+               
+                
+
+            }
+        })
+    })
     function toggle(int) {
         if (int) {
             int = 0;
@@ -110,7 +156,7 @@ $(document).ready(function () {
         }
         $(param).data('checked', toggle($(param).data('checked')))
     }
-    
+
     let category_array = [];
     let brand_array = [];
     $('.category-filter').on('change', function () {
@@ -120,4 +166,11 @@ $(document).ready(function () {
     $('.brand-filter').on('change', function () {
         makeFilter(this, brand_array)
     });
+
+    $('.update-cart-item').on('click', function () {
+        alert('something')
+        console.log($(this).data('sizes'))
+        $(this).data('sizes').map(ele => console.log(ele))
+    });
+
 })

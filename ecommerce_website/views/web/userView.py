@@ -71,7 +71,7 @@ def remove_wish(request, pk):
 def cart(request):
     context = getDefault(request)
     u_profile = getAccount(request)    
-    cart = UserCart.objects.filter(user_id=request.user).select_related('product_id').prefetch_related('product_id__productimage_set')
+    cart = UserCart.objects.filter(user_id=request.user).select_related('product_id').prefetch_related('product_id__productimage_set','product_id__producthascolor_set__color', 'product_id__producthassize_set__size')
     return render(request, 'user/cart.html', {'cart': cart, **context, 'profile':u_profile})
 
 def add_to_cart(request, pk):

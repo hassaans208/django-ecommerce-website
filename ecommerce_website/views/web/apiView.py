@@ -7,7 +7,7 @@ from ecommerce_website.models.color import Color
 from django.db.models import Q
 from ecommerce_website.helpers.helper import *
 from django.http import JsonResponse
-
+from django.core import serializers
 def add_to_wishlist(request, pk):
     product = Product.objects.filter(id=pk)
     wishlist = UserWishlist.objects.filter(Q(user_id=request.user) & Q(product_id=product[0])).exists()
@@ -52,3 +52,24 @@ def remove_cart_item(request, pk):
     UserCart.objects.filter(id=pk).delete()
     data = {'status': True, 'message': 'Item removed from cart'}
     return JsonResponse(data)  
+
+def get_product(request, pk):
+    data = Product.objects.prefetch_related('productimage_set', 'producthascolor_set__color', 'producthassize_set__size').get(id=pk)
+    # serialized_products = serializers.serialize('json', data)
+    data = {
+        'status': True, 
+        'message': 'Item fetched Successfully', 
+        'data':  {
+            'name': data.title,
+            'price': data.price,
+            'total_price': data.total_price,
+            'discounted_price': data.discounted_price,
+            'available_quantity': data.available_quantity,
+            'images': [image.images.url for image in data.productimage_set.all()],
+            'colors': [color.color.hex for color in data.producthascolor_set.all()],
+            'sizes': [size.size.display_name for size in data.producthassize_set.all()],},
+            'colors_ids': [color.color.id for color in data.producthascolor_set.all()],
+            'sizes_ids': [size.size.id for size in data.producthassize_set.all()],
+        }
+    return JsonResponse(data)
+    
