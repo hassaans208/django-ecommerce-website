@@ -1,0 +1,60 @@
+{% load static %}
+
+<!-- header -->
+<header class="py-4 shadow-sm bg-white">
+    <div class="container flex items-center justify-between">
+        <a href="{% url 'home' %}">
+            {% if app_setting.logo %}
+            {% with relative_path=app_setting.logo.url|slice:"7:" %}
+            <img src="{% static relative_path %} " alt="logo" class="w-30" width="100" height="100">
+            {% endwith %}
+            {% elif not app_setting.logo %}
+            <img src="{% static 'assets/images/logo.svg' %} " alt="logo" class="w-30">
+            {% endif %}
+
+        </a>
+
+        <div class="w-full max-w-xl relative h-full flex items-center justify-center">
+            <span class="absolute left-4 top-3 text-lg text-gray-400">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input type="text" name="search" id="search"
+                class="w-full border border-primary border-r-0 pl-12 py-3 pr-3 rounded-l-md focus:outline-none hidden md:flex"
+                placeholder="search">
+            <button
+                class="bg-primary border py-3 border-primary text-white px-8 rounded-r-md hover:bg-transparent hover:text-primary transition hidden md:flex">Search</button>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <a id="wish-head" href="{% url 'wishlist' %}" class="text-center text-gray-700 hover:text-primary transition relative">
+                <div class="text-2xl">
+                    <i class="fa-regular fa-heart"></i>
+                </div>
+                <div class="text-xs leading-3">Wishlist</div>
+                {% if wishlist_count %}
+                <div
+                    class="absolute right-0 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
+                    {{wishlist_count}}</div>
+                {% endif %}
+            </a>
+            <a href="{% url 'cart' %}" id="cart-head" class="text-center text-gray-700 hover:text-primary transition relative">
+                <div class="text-2xl">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <div class="text-xs leading-3">Cart</div>
+                {% if cart_count %}
+                <div
+                    class="absolute  right-0 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
+                    {{cart_count}}</div>
+                {% endif %}
+            </a>
+            <a href="{% url 'profile' %}" class="text-center text-gray-700 hover:text-primary transition relative">
+                <div class="text-2xl">
+                    <i class="fa-regular fa-user"></i>
+                </div>
+                <div class="text-xs leading-3">Account</div>
+            </a>
+        </div>
+    </div>
+</header>
+<!-- ./header -->

@@ -1,0 +1,15 @@
+<div class="pt-4">
+    <h3 class="text-xl text-gray-800 mb-3 uppercase font-medium">Color</h3>
+    <div class="flex items-center gap-2">
+        {% for product_has_color in product.producthascolor_set.all %}
+        <div class="color-selector">
+            <input type="radio" name="color" id="{{product_has_color.id}}-{{product_has_color.color.hex}}"
+                class="hidden">
+            <label for="{{product_has_color.id}}-{{product_has_color.color.hex}}"
+                data-val="{{product_has_color.color.id}}"
+                class="border border-gray-200 rounded-sm h-6 w-6  cursor-pointer shadow-sm block color-selection"
+                style="background-color: #{{product_has_color.color.hex}};"></label>
+        </div>
+        {% endfor %}
+    </div>
+</div>

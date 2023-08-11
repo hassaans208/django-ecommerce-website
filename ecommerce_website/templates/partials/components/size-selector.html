@@ -1,0 +1,13 @@
+<div class="pt-4">
+    <h3 class="text-sm text-gray-800 uppercase mb-1">Size</h3>
+    <div class="flex items-center gap-2">
+        {% for product_has_size in product.producthassize_set.all %}
+        <div class="size-selector">
+            <input type="radio" name="size" id="size-{{product_has_size.size.id}}" class="hidden">
+            <label for="size-{{product_has_size.size.id}}" data-val="{{product_has_size.size.id}}"
+                class="text-xs border border-gray-200 size-selection rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">{{product_has_size.size.display_name}}</label>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>

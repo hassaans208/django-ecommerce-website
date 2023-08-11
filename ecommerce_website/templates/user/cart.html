@@ -1,0 +1,78 @@
+{% extends "_base.html" %}
+
+{% block content %}
+{% load static %}
+
+
+<!-- breadcrumb -->
+<div class="container py-4 flex items-center gap-3">
+    <a href="../index.html" class="text-primary text-base">
+        <i class="fa-solid fa-house"></i>
+    </a>
+    <span class="text-sm text-gray-400">
+        <i class="fa-solid fa-chevron-right"></i>
+    </span>
+    <p class="text-gray-600 font-medium">Profile</p>
+</div>
+<!-- ./breadcrumb -->
+
+<!-- wrapper -->
+<div class="container grid grid-cols-12 items-start gap-6 pt-4 pb-16">
+
+    {% include "user/partials/sidebar.html" %}
+    <!-- wishlist -->
+    <div class="col-span-9 space-y-4" id="cart-list">
+        {% for product in cart %}
+        <div class="flex items-center  justify-between border gap-2 p-4 border-gray-200 rounded">
+            <div class="flex items-center  justify-between gap-3">
+
+                <div class="">
+                    {% for image in product.product_id.productimage_set.all %}
+                    {% if image.image_status == "M" %}
+                    {% with relative_path=image.images.url|slice:"7:" %}
+                    <img src="{% static relative_path %}" alt="product 6" class="w-28">
+                    {% endwith %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="w-full ms-2">
+                    <h2 class="text-gray-800 text-xl font-medium uppercase">{{product.product_id.title}}</h2>
+                    <p class="text-gray-500 text-sm">Availability: <span
+                            class="{% if product.product_id.status == 'A' %} text-green-600{% else %}text-red-600{% endif %}">
+                            {% if product.product_id.status == "A" %}
+                            Availabile {% else %}
+                            Out of Stock
+
+                            {% endif %}
+                        </span></p>
+                </div>
+            </div>
+            {% include "partials/components/quantity-input.html" %}
+            <div class="text-primary text-lg font-semibold">{{product.product_id.price}}</div>
+            <a href="{% url 'add_to_cart' pk=product.product_id.id %}"
+                class="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">Update</a>
+
+            <button class="rm-cart" data-val="{{product.id}}">
+                <div class="text-gray-600 cursor-pointer hover:text-primary">
+                    <i class="fa-solid fa-trash"></i>
+                </div>
+            </button>
+        </div>
+        {% empty %}
+        <div class="flex items-center justify-center h-44  border gap-6 p-4 border-gray-200 rounded">
+            <p class="text-center">Add Amazing Items from <a class="text-orange-500 underline underline-offset-1 hover:text-orange-900 " href="{% url 'shop' %}">Shopping List</a></p>
+        </div>
+        {% endfor %}
+        <div class="flex flex-row justify-end">
+            {% if cart|length != 0 %}
+            <a href="{% url 'checkout' %}"
+                class="px-6 py-2 text-center self-end text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">checkout</a>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+<!-- ./wrapper -->
+
+
+{% endblock content %}

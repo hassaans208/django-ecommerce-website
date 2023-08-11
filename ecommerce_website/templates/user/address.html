@@ -1,0 +1,70 @@
+{% extends "_base.html" %}
+
+{% block content %}
+{% load static %}
+
+<!-- breadcrumb -->
+<div class="container py-4 flex items-center gap-3">
+    <a href="../index.html" class="text-primary text-base">
+        <i class="fa-solid fa-house"></i>
+    </a>
+    <span class="text-sm text-gray-400">
+        <i class="fa-solid fa-chevron-right"></i>
+    </span>
+    <p class="text-gray-600 font-medium">Profile</p>
+</div>
+<!-- ./breadcrumb -->
+
+<!-- wrapper -->
+<div class="container grid grid-cols-12 items-start gap-6 pt-4 pb-16">
+
+    <!-- sidebar -->
+    {% include "user/partials/sidebar.html" %}
+    <!-- ./sidebar -->
+
+    <!-- info -->
+    <div class="col-span-9 grid grid-cols-2 gap-4">
+
+   
+
+        <div class="shadow rounded bg-white px-4 pt-6 pb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-medium text-gray-800 text-lg">Shipping address</h3>
+                <a href="{% url 'update_address' type='shipping' %}" class="text-primary">{% if shipping.full_name %}Edit{% else %}Add{% endif %}</a>
+            </div>
+            <div class="space-y-1">
+                {% if shipping.full_name %}
+                <h4 class="text-gray-700 font-medium">{{shipping.full_name}}</h4>
+                <p class="text-gray-800">{{shipping.city}}, {% if shipping.state %}{{shipping.state}}{% endif %}, {{shipping.country}}</p>
+                <p class="text-gray-800">{{shipping.postal_code}}</p>
+                <p class="text-gray-800">{{shipping.phone_number}}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="shadow rounded bg-white px-4 pt-6 pb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-medium text-gray-800 text-lg">Billing address</h3>
+                <a href="{% url 'update_address' type='billing' %}" class="text-primary">{% if billing.full_name %}Edit{% else %}Add{% endif %}</a>
+            </div>
+            <div class="space-y-1">
+                {% if billing.full_name %}
+                <h4 class="text-gray-700 font-medium">{{billing.full_name}}</h4>
+                <p class="text-gray-800">{{billing.city}}, {% if billing.state %}{{billing.state}}{% endif %}, {{billing.country}}</p>
+                <p class="text-gray-800">{{billing.postal_code}}</p>
+                <p class="text-gray-800">{{billing.phone_number}}</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+    <!-- ./info -->
+
+</div>
+<!-- ./wrapper -->
+<!-- templates/index.html -->
+
+
+
+
+{% endblock content %}
